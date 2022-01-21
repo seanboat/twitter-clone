@@ -4,6 +4,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
+    "start": "nodemon index.js",
     "test": "jest"
   },
   "keywords": [],
@@ -12,6 +13,7 @@
   "dependencies": {
     "express": "^4.17.2",
     "jest": "^27.4.7",
+    "morgan": "^1.10.0",
     "pg": "^8.7.1"
   },
   "devDependencies": {
