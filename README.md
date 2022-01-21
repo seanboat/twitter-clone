@@ -54,7 +54,7 @@ The complete ERD might look like this. Notice the use of different connectors, d
 
 ## Seed Routines
 
-To build our database setup and seed routines, we'll need to execute a few SQl queries.
+To build our database setup and seed routines, we'll need to execute a few SQL queries.
 
 - First, build your tables with CREATE TABLE < name > statements. Remember, if a foreign key depends on another table's primary key value, the primary keyed table will need to be created first: else, there's no record to associate!
 
