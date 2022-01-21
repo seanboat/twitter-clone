@@ -15,6 +15,7 @@ describe('api tests', () => {
         data: { users },
         status,
       } = await axios.get(`${API_URL}/users`);
+
       expect(status).toBe(200);
       expect(Array.isArray(users)).toBe(true);
       expect(users.length).toBe(5);

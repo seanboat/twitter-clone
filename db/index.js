@@ -20,30 +20,39 @@ module.exports = {
   testDB,
 };
 
-async function testDB() {
+async function testDB(userId) {
   try {
     console.log('testing db adapters!');
 
-    const users = await getAllUsers();
-    console.log({ users });
+    const allUsers = await getAllUsers();
+    console.log({ allUsers });
 
-    const albert = await getUserById(1);
-    console.log({ albert });
+    const user = await getUserById(userId);
+    console.log({ user });
 
-    const albertTweets = await getTweetsByUserId(1);
-    console.log({ albertTweets });
+    const userTweets = await getTweetsByUserId(userId);
+    console.log({ userTweets });
 
-    const albertTweetHashtags = await getHashtagsByTweetId(1);
-    console.log({ albertTweetHashtags });
+    const tweetId = userTweets[0].id;
 
-    const albertTweetLikes = await getLikesByTweetId(1);
-    console.log({ albertTweetLikes });
+    const firstTweetHashtags = await getHashtagsByTweetId(tweetId);
+    console.log({ firstTweetHashtags });
 
-    const albertFollowers = await getFollowersByUserId(1);
-    console.log({ albertFollowers });
+    const firstTweetLikes = await getLikesByTweetId(tweetId);
+    console.log({ firstTweetLikes });
 
-    console.log('end db adapter tests');
+    const userFollowers = await getFollowersByUserId(userId);
+    console.log({ userFollowers });
+
+    return {
+      allUsers,
+      user,
+      userTweets,
+      firstTweetHashtags,
+      firstTweetLikes,
+      userFollowers,
+    };
   } catch (err) {
-    console.error(err);
+    throw err;
   }
 }

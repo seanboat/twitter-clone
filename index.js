@@ -18,8 +18,13 @@ server.get('/health', (_, res) => {
   }
 });
 
-server.get('/testdb', () => {
-  testDB();
+server.get('/testdb/:userId', async (req, res, next) => {
+  try {
+    const testData = await testDB(req.params.userId);
+    res.send(testData);
+  } catch (err) {
+    next(err);
+  }
 });
 
 const handle = server.listen(PORT, async () => {
