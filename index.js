@@ -1,13 +1,14 @@
 const express = require('express');
-const morgan = require('morgan');
-const { client } = require('./db/adapters');
 const server = express();
 const PORT = 5500;
-
-const { testDB } = require('./db/index');
+const morgan = require('morgan');
+const { client, testDB } = require('./db');
+const apiRouter = require('./api');
 
 server.use(morgan('dev'));
 server.use(express.json());
+
+server.use('/api', apiRouter);
 
 server.get('/health', (_, res) => {
   try {
@@ -23,11 +24,15 @@ server.get('/testdb', () => {
 
 const handle = server.listen(PORT, async () => {
   try {
-    console.log(`server listening on port ${PORT}`);
     await client.connect();
+    console.log('db client connected!');
   } catch (err) {
+    console.error(err);
     await client.end();
+    throw err;
   }
+
+  console.log(`server listening on port ${PORT}`);
 });
 
-module.exports = { handle };
+module.exports = { handle, PORT };

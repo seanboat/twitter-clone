@@ -1,5 +1,6 @@
+const { client } = require('./client');
+
 const {
-  client,
   getAllUsers,
   getUserById,
   getTweetsByUserId,
@@ -7,6 +8,17 @@ const {
   getLikesByTweetId,
   getFollowersByUserId,
 } = require('./adapters');
+
+module.exports = {
+  client,
+  getAllUsers,
+  getUserById,
+  getTweetsByUserId,
+  getHashtagsByTweetId,
+  getLikesByTweetId,
+  getFollowersByUserId,
+  testDB,
+};
 
 async function testDB() {
   try {
@@ -30,11 +42,8 @@ async function testDB() {
     const albertFollowers = await getFollowersByUserId(1);
     console.log({ albertFollowers });
 
-    console.log('end db adapater tests');
+    console.log('end db adapter tests');
   } catch (err) {
     console.error(err);
   }
 }
-
-console.log('testing db!');
-testDB();
