@@ -59,7 +59,7 @@ async function getHashtagsByTweetId(tweetId) {
   try {
     const { rows: hashtags } = await client.query(
       `
-      SELECT * FROM hashtags
+      SELECT id, tag FROM hashtags
       JOIN tweet_hashtags
       ON tweet_hashtags.hashtag_id=hashtags.id
       WHERE tweet_id=$1;
