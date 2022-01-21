@@ -22,7 +22,7 @@ Let's build a twitter clone! We'll break the effort down into a few key parts:
 
 ## Bring it all together
 
-1. Create a route `/api/testdb/:userId` that takes in a `userId` on the `req.params.userId` object and runs the database test function we wrote in **Database design** above on that particular relation
+1. Create a top-level route `/testdb/:userId` that takes in a `userId` on the `req.params.userId` object and runs the database test function we wrote in **Database design** above on that particular relation
 2. Write tests for each api route provided in `api.spec.js`, following the pattern established in the first test at `GET /api/users`
 
 ---
@@ -46,7 +46,7 @@ Here's an example of how we could structure each of these relations:
 
 ![](/assets/twitter-clone-tables.png)
 
-The complete ERD might look like this. Notice the use of different connectors, describing the 1:1, 1:many, and many:many relations that we're describing! For more info on ERDs and the way that we use _cardinality_ to refer to belongingness amongst entities, check out this awesome resource: https://vertabelo.com/blog/cardinality-in-data-modeling/
+The complete ERD might look like this. Notice the use of different connectors, describing 1:1, 1:many, and many:many relations! For more info on ERDs and the way that we use _cardinality_ to refer to belongingness amongst entities, check out this awesome resource: https://vertabelo.com/blog/cardinality-in-data-modeling/
 
 ![](/assets/twitter-clone-erd.png)
 
