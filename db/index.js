@@ -9,6 +9,8 @@ module.exports = {
   getTweetsByUserId,
   getHashtagsByTweetId,
   getFollowersByUserId,
+  getLikesByTweetId,
+  testDB,
 };
 
 // database adapters
@@ -105,35 +107,59 @@ async function getFollowersByUserId(userId) {
   }
 }
 
-// getAllUsers,x
-//   getUserById,x
-//   getTweetsByUserId,x
-//   getHashtagsByTweetId,x
-//   getFollowersByUserId,
-
-async function testDB() {
+async function getLikesByTweetId(tweetId) {
   try {
-    const users = await getAllUsers();
-    console.log({ users });
+    const { rows: likes } = await client.query(
+      `
+      SELECT COUNT(*) 
+      FROM likes
+      WHERE likes.tweet_id=$1;
+    `,
+      [tweetId]
+    );
 
-    const user = await getUserById(1);
-    console.log({ user });
-
-    const userTweets = await getTweetsByUserId(1);
-    console.log({ userTweets });
-
-    const firstUserTweetId = userTweets[0].id;
-
-    const firstUserTweetHashtags = await getHashtagsByTweetId(firstUserTweetId);
-    console.log({ firstUserTweetHashtags });
-
-    const firstUserFollowers = await getFollowersByUserId(1);
-    console.log({ firstUserFollowers });
+    return likes;
   } catch (err) {
     throw err;
   }
 }
 
+async function testDB(userId) {
+  try {
+    const users = await getAllUsers();
+    console.log({ users });
+
+    const user = await getUserById(userId);
+    console.log({ user });
+
+    const userTweets = await getTweetsByUserId(userId);
+    console.log({ userTweets });
+
+    const firstUserTweetId = userTweets[0].id;
+
+    const userTweetHashtags = await getHashtagsByTweetId(firstUserTweetId);
+    console.log({ userTweetHashtags });
+
+    const firstTweetLikes = await getLikesByTweetId(firstUserTweetId);
+    console.log({ firstTweetLikes });
+
+    const userFollowers = await getFollowersByUserId(userId);
+    console.log({ userFollowers });
+
+    return {
+      users,
+      user,
+      userTweets,
+      userTweetHashtags,
+      firstTweetLikes,
+      userFollowers,
+    };
+  } catch (err) {
+    throw err;
+  }
+}
+
+// only for testing purposes
 async function init() {
   try {
     await client.connect();
@@ -142,5 +168,3 @@ async function init() {
     throw err;
   }
 }
-
-init();
