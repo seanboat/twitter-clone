@@ -83,9 +83,28 @@ Now that your database adapaters are complete, let's test them! Write a function
 
 Now that our database is seeded and queryable, let's build the Express server that will define the RESTful routes that will serve up our data!
 
-- Create a bare express server instance, add body parsing middleware, and open the server handle with `server.listen()`, taking care to `await client.connect()` upon successful server startup
+- Create a bare express server instance, add body parsing middleware, and open the server handle with `server.listen()`, taking care to `await client.connect()` upon successful server startup. At this point, fire up the `test/api.spec.js` file and take a look at its `required` constants: there is a `handle` and a `PORT` value coming from the express server top-level `index.js`.
 
 _hint: you'll want to perform this action inside the callback function that's the second argument to `server.listen()`, and you'll want to specify a `PORT` constant as its first argument_
+
+The `handle` allows us to target the open connection created by calling `server.listen()`. To define it in your express server and export it for use in the test suite, try something like this:
+
+```javascript
+const handle = server.listen(PORT, async () => {
+  try {
+    await client.connect();
+    console.log('db client connected!');
+  } catch (err) {
+    console.error(err);
+    await client.end();
+    throw err;
+  }
+
+  console.log(`server listening on port ${PORT}`);
+});
+
+module.exports = { handle, PORT };
+```
 
 - Create a `/health` endpoint that returns `{healthy: true | false}` at the top level of your express app
 - Create an `apiRouter` and a `usersRouter`, and hook them up accordingly. Remember, `server.use()` can host the app middleware, and `apiRouter.use()` can host the various subrouter middlewares we'll define for each entity in our RESTful route setup!
