@@ -1,5 +1,11 @@
 # SQL + Express Practice: Twitter Clone
 
+## Getting started
+
+Fork and clone this repo to your local machine and run `npm i` to get setup with all deps. Practice your git workflow skills by making small, frequent commits with descriptive naming: the [semantic git pattern](https://gist.github.com/joshbuchea/6f47e86d2510bce28f8e7f42ae84c716) is a great convention to follow!
+
+## Overview
+
 Let's build a twitter clone! We'll break the effort down into a few key parts:
 
 ## Database design
@@ -23,7 +29,7 @@ Let's build a twitter clone! We'll break the effort down into a few key parts:
 
 # Part One: Database Design
 
-1.
+## Schema
 
 To design our schema, let's think about what entities we'll need to capture the core elements of content distribution system like twitter. We've got a few key players that we'll want to describe:
 
@@ -46,7 +52,7 @@ The complete ERD might look like this. Notice the use of different connectors, d
 
 ---
 
-2.
+## Seed Routines
 
 To build our database setup and seed routines, we'll need to execute a few SQl queries.
 
@@ -58,7 +64,7 @@ To build our database setup and seed routines, we'll need to execute a few SQl q
 
 - Query your database by running `SELECT * ...` statements to verify that your database tables hold the data and relations you expect!
 
-3.
+## Database Adapters
 
 Let's create database adapters by leveraging the `pg` Client constructor to build a client interface and issue SQL commands against our seeded database. Each adapter will be written in JavaScript, and should have the following qualities and characteristics:
 
@@ -67,7 +73,7 @@ Let's create database adapters by leveraging the `pg` Client constructor to buil
 - build useful adapters for as many relations as you like! there are at least 4 key relationships between users, tweets, hashtags, likes, and followers, and potentially many more. think like a database architect (a DBA): what sorts of information will the twitter system require, and how can you create adapters to facilitate that data exchange?
 - place the client and all of your database adapters on the `module.exports` object so that we can consume them in our API / express app
 
-4.
+## Validating the Adapters
 
 Now that your database adapaters are complete, let's test them! Write a function `testDB()` that validates each adapter by querying your seeded database. This will be an asynchronous function that will need to `await` each adapter call. For now, `console.log()` each value returned from your adapter calls in the body of the function, and provide a pair of helpful messages to bookend the body of the function, like `testing db!` and `testing complete`.
 
@@ -132,6 +138,10 @@ async function testDB(userId) {
 Now that your `testDB` function has been _parameterized_ to return dynamic output based on the supplied `userId`, let's create a RESTful route to supply that request parameter!
 
 - Create a route `/testdb/:userId` and leverage the `req.params.userId` value to call `testDB(userId)` and `res.send()` the object returned from our database adapter tests
+
+---
+
+# Wrap-up
 
 Congratulations, you have a fully-functioning twitter API! But there's a bit more to do: remember, untested code doesn't work, even if it does! Let's hone our test-driven development or TDD chops by writing unit tests to validate our API routes. A sample validation is supplied under `test/api.spec.js` which you can run with `npm run test:watch:api`. You'll expect this test to fail until your route for fetching all users returns the output `expect`-ed by the test specs.
 
