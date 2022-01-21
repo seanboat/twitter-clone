@@ -22,7 +22,7 @@ Let's build a twitter clone! We'll break the effort down into a few key parts:
 
 ## Bring it all together
 
-1. Create a top-level route `/testdb/:userId` that takes in a `userId` on the `req.params.userId` object and runs the database test function we wrote in **Database design** above on that particular relation
+1. Create a route `/api/testdb/:userId` that takes in a `userId` on the `req.params.userId` object and runs the database test function we wrote in **Database design** above on that particular relation
 2. Write tests for each api route provided in `api.spec.js`, following the pattern established in the first test at `GET /api/users`
 
 ---
@@ -46,7 +46,7 @@ Here's an example of how we could structure each of these relations:
 
 ![](/assets/twitter-clone-tables.png)
 
-The complete ERD might look like this. Notice the use of different connectors, describing 1:1, 1:many, and many:many relations! For more info on ERDs and the way that we use _cardinality_ to refer to belongingness amongst entities, check out this awesome resource: https://vertabelo.com/blog/cardinality-in-data-modeling/
+The complete ERD might look like this. Notice the use of different connectors, describing the 1:1, 1:many, and many:many relations! For more info on ERDs and the way that we use _cardinality_ to refer to belongingness amongst entities, check out this awesome resource: https://vertabelo.com/blog/cardinality-in-data-modeling/
 
 ![](/assets/twitter-clone-erd.png)
 
@@ -54,7 +54,7 @@ The complete ERD might look like this. Notice the use of different connectors, d
 
 ## Seed Routines
 
-To build our database setup and seed routines, we'll need to execute a few SQl queries.
+To build our database setup and seed routines, we'll need to execute a few SQL queries.
 
 - First, build your tables with CREATE TABLE < name > statements. Remember, if a foreign key depends on another table's primary key value, the primary keyed table will need to be created first: else, there's no record to associate!
 
@@ -75,7 +75,7 @@ Let's create database adapters by leveraging the `pg` Client constructor to buil
 
 ## Validating the Adapters
 
-Now that your database adapaters are complete, let's test them! Write a function `testDB()` that validates each adapter by querying your seeded database. This will be an asynchronous function that will need to `await` each adapter call. For now, `console.log()` each value returned from your adapter calls in the body of the function, and provide a pair of helpful messages to bookend the body of the function, like `testing db!` and `testing complete`.
+Now that your database adapters are complete, let's test them! Write a function `testDB()` that validates each adapter by querying your seeded database. This will be an asynchronous function that will need to `await` each adapter call. For now, `console.log()` each value returned from your adapter calls in the body of the function, and provide a pair of helpful messages to bookend the body of the function, like `testing db!` and `testing complete`.
 
 ---
 
@@ -84,8 +84,6 @@ Now that your database adapaters are complete, let's test them! Write a function
 Now that our database is seeded and queryable, let's build the Express server that will define the RESTful routes that will serve up our data!
 
 - Create a bare express server instance, add body parsing middleware, and open the server handle with `server.listen()`, taking care to `await client.connect()` upon successful server startup. At this point, fire up the `test/api.spec.js` file and take a look at its `required` constants: there is a `handle` and a `PORT` value coming from the express server top-level `index.js`.
-
-_hint: you'll want to perform this action inside the callback function that's the second argument to `server.listen()`, and you'll want to specify a `PORT` constant as its first argument_
 
 The `handle` allows us to target the open connection created by calling `server.listen()`. To define it in your express server and export it for use in the test suite, try something like this:
 
