@@ -9,7 +9,7 @@ const { testDB } = require('./db/index');
 server.use(morgan('dev'));
 server.use(express.json());
 
-server.get('/health', (req, res) => {
+server.get('/health', (_, res) => {
   try {
     res.send({ healthy: true });
   } catch (err) {
@@ -17,7 +17,7 @@ server.get('/health', (req, res) => {
   }
 });
 
-server.get('/testdb', (req, res) => {
+server.get('/testdb', () => {
   testDB();
 });
 
